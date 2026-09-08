@@ -2,12 +2,12 @@ import sqlite3
 
 conn = sqlite3.connect("biblioteca.db")
 
-conn.execute("DROP TABLE IF EXISTS livros")
+conn.execute("DROP TABLE IF EXISTS usuarios")
 
-conn.execute("CREATE TABLE autores (id INTEGER PRIMARY KEY AUTOINCREMENT, \
-             titulo TEXT NOT NULL, ano_publicacao INTEGER)")
+conn.execute("CREATE TABLE usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, \
+             nome TEXT NOT NULL)")
 
-conn.executemany("INSERT INTO autores(nome) VALUES(?)",
-                 [("Desconhecido",), ("Cellbit",), ("Daniel",),])
+conn.executemany("INSERT INTO usuarios(nome) VALUES(?)",
+                 [("Arthur",), ("Joui",), ("Kaiser",), ("Thiago",),])
 
 conn.commit()
