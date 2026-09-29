@@ -24,7 +24,7 @@ def cadastrar_livros():
     if ja_tem_autor == True:
         pass
     else:
-        conn.execute("INSERT INTO autores(nome) VALUES(?)", (autor))
+        conn.execute("INSERT INTO autores(nome) VALUES(?)", (autor,))
         conn.commit()
 
     editora = input('Digite o nome da editora: ')
@@ -40,7 +40,7 @@ def cadastrar_livros():
         if (ja_tem_editora == True):
             pass
         else:
-            conn.execute("INSERT INTO autores(nome) VALUES(?)", (editora))
+            conn.execute("INSERT INTO editoras(nome) VALUES(?)", (editora,))
             conn.commit()
 
     ano_publicacao = int(input('Digite o ano de publicação do livro: '))
@@ -57,7 +57,15 @@ def cadastrar_livros():
         else:
             print('\nAlgo deu errado!\nTente novamente.')
 
-    conn.execute(sql_insert, (titulo, autor, editora, ano_publicacao, edicao, disponivel))
+        comando_sql1 = ("SELECT id FROM autores WHERE nome = ?")
+        cursor.execute(comando_sql1, (autor,))
+        id_autor = cursor.fetchone()
+        
+        comando_sql2 = ("SELECT id FROM editoras WHERE nome = ?")
+        cursor.execute(comando_sql2, (editora,))
+        id_editora = cursor.fetchone()
+
+    conn.execute(sql_insert, (titulo, id_autor, id_editora, ano_publicacao, edicao, disponivel))
    
     conn.commit()
 
@@ -72,6 +80,9 @@ def listar_livros():
     resultados = cursor.fetchall()
 
     for linha in resultados:
-        print(f"id: {linha['id']} | título: {linha['titulo']} | autor: {linha['']}")
+        if(linha('disponivel' == True)):
+            print(f"id: {linha['id']} | título: {linha['titulo']} | autor: {linha['']} | editora: {linha['']} | ano publicação: {linha['']} | edição: {linha['']} | está disponível")
+        elif(linha('disponivel' == True)):
+            print(f"id: {linha['id']} | título: {linha['titulo']} | autor: {linha['']} | editora: {linha['']} | ano publicação: {linha['']} | edição: {linha['']} | está indisponível")
 
     conn.close()
